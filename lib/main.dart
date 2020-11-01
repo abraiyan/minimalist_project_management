@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
-        padding: EdgeInsets.only(left: 8, top: 10, bottom: 10, right: 12),
+        padding: EdgeInsets.only(left: 11, top: 10, bottom: 10, right: 14),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.add, color: Colors.white, size: 20,),
-            SizedBox(width: 6),
+            SizedBox(width: 4),
             Text('Add Task', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 16),)
           ],
         ),
@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
 
   BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
+      elevation: 20,
       currentIndex: bottomNavBarIndex,
       onTap: (index) {
         setState(() {
@@ -66,8 +67,8 @@ class _HomePageState extends State<HomePage> {
       },
       selectedFontSize: 18.0,
       unselectedFontSize: 14.0,
-      selectedLabelStyle: GoogleFonts.montserrat(),
-      unselectedLabelStyle: GoogleFonts.montserrat(),
+      selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+      unselectedLabelStyle: GoogleFonts.poppins(),
       backgroundColor: Colors.white,
       items: [
         BottomNavigationBarItem(
@@ -88,8 +89,8 @@ class _HomePageState extends State<HomePage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      toolbarHeight: 70,
-      elevation: 0,
+      toolbarHeight: 60,
+      elevation: 2,
       backgroundColor: Colors.white,
       title: Row(
         children: [
