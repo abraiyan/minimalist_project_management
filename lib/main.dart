@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
                 value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
               }
               return Align(
-                alignment: Alignment.center,
                 child: SizedBox(
                   height: Curves.easeInOut.transform(value) * (MediaQuery.of(context).size.height * 0.73),
                   child: Opacity(
@@ -87,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Divider(
                     color: Colors.black87,
-                    thickness: 1,
+                    thickness: 0.7,
                   ),
                   const SizedBox(height: 12,),
                   Expanded(
