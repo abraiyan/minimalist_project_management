@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: PageView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: pageController,
         onPageChanged: (value) {
           setState(() {
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               double value = 1;
               if(pageController.position.haveDimensions) {
                 value = pageController.page - index;
-                value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0);
+                value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
               }
               return Align(
                 alignment: Alignment.center,
@@ -78,26 +78,28 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Text('To Do', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
-                      Spacer(),
-                      Icon(Icons.add, color: Colors.black87,),
-                      SizedBox(width: 6,),
-                      Icon(Icons.more_vert, color: Colors.black87,),
+                      const Spacer(),
+                      const Icon(Icons.add, color: Colors.black87,),
+                      const SizedBox(width: 6,),
+                      const Icon(Icons.more_vert, color: Colors.black87,),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black87,
                     thickness: 1,
                   ),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       itemCount: 3,
                       itemBuilder: (context, index) {
                         return Column(
+                          // ignore: prefer_const_literals_to_create_immutables
                           children: [
-                            NewWidget(),
-                            SizedBox(height: 14,),
+                            const NewWidget(),
+                            // ignore: prefer_const_literals_to_create_immutables
+                            const SizedBox(height: 14,),
                           ],
                         );
                       },
@@ -114,18 +116,11 @@ class _HomePageState extends State<HomePage> {
 
   Container buildFAB() {
     return Container(
-      padding: EdgeInsets.only(left: 11, top: 10, bottom: 10, right: 14),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.add, color: Colors.white, size: 20,),
-          SizedBox(width: 4),
-          Text('Add Task', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 16),)
-        ],
-      ),
+      padding: const EdgeInsets.only(left: 11, top: 10, bottom: 10, right: 14),
       decoration: BoxDecoration(
+        // ignore: prefer_const_literals_to_create_immutables
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black26,
             blurRadius: 6,
             offset: Offset(1.0, 2.0),
@@ -133,6 +128,14 @@ class _HomePageState extends State<HomePage> {
         ],
         color: Colors.blueAccent,
         borderRadius: BorderRadius.circular(40.0),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.add, color: Colors.white, size: 20,),
+          const SizedBox(width: 4),
+          Text('Add Task', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 16),)
+        ],
       ),
     );
   }
@@ -145,7 +148,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           isJumping = true;
           bottomNavBarIndex = index;
-          pageController.animateToPage(index, duration: Duration(milliseconds: 500), curve: Curves.easeInOut).then((value) {
+          pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut).then((value) {
             setState(() {
               isJumping = false;
             });
@@ -157,7 +160,7 @@ class _HomePageState extends State<HomePage> {
       selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),
       unselectedLabelStyle: GoogleFonts.poppins(),
       backgroundColor: Colors.white,
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: SizedBox(),
           label: "Todo",
@@ -181,18 +184,18 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       title: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 20,
             backgroundImage: AssetImage('assets/03w.jpg'),
           ),
-          SizedBox(width: 12,),
+          const SizedBox(width: 12,),
           Text('Hello Kitty', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
         ],
       ),
       actions: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.more_vert, color: Colors.black87,),
+          icon: const Icon(Icons.more_vert, color: Colors.black87,),
         ),
       ],
     );
@@ -207,7 +210,7 @@ class NewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 12, bottom: 4),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 12, bottom: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: Colors.white,
@@ -215,7 +218,7 @@ class NewWidget extends StatelessWidget {
           BoxShadow(
             color: Colors.black26.withOpacity(0.15),
             blurRadius: 8,
-            offset: Offset(0.0, 2.0),
+            offset: const Offset(0.0, 2.0),
           ),
         ]
       ),
@@ -225,26 +228,26 @@ class NewWidget extends StatelessWidget {
           Row(
             children: [
               Text('Finish The UI', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20),),
-              Spacer(),
-              Icon(Icons.more_horiz, color: Colors.black87,),
+              const Spacer(),
+              const Icon(Icons.more_horiz, color: Colors.black87,),
             ],
           ),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Text('Gather Jane and Joan and finish the header design according to the decisions made by the board.', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w300),),
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Row(
             children: [
               Chip(
                 label: Text('HIGH', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),),
-                backgroundColor: Color(0xFFFF005E),
-                labelPadding: EdgeInsets.symmetric(horizontal: 8),
+                backgroundColor: const Color(0xFFFF005E),
+                labelPadding: const EdgeInsets.symmetric(horizontal: 8),
               ),
-              Spacer(),
-              Icon(Icons.calendar_today, color: Colors.blueAccent,),
-              SizedBox(width: 6,),
+              const Spacer(),
+              const Icon(Icons.calendar_today, color: Colors.blueAccent,),
+              const SizedBox(width: 6,),
               Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),)
             ],
           ),
