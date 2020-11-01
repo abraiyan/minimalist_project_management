@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sideappbarui/widgets/item_main.dart';
 
 void main() {
   runApp(MyApp());
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                         return Column(
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
-                            const NewWidget(),
+                            const ItemMain(),
                             // ignore: prefer_const_literals_to_create_immutables
                             const SizedBox(height: 14,),
                           ],
@@ -198,61 +199,6 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.more_vert, color: Colors.black87,),
         ),
       ],
-    );
-  }
-}
-
-class NewWidget extends StatelessWidget {
-  const NewWidget({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 12, bottom: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26.withOpacity(0.15),
-            blurRadius: 8,
-            offset: const Offset(0.0, 2.0),
-          ),
-        ]
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Text('Finish The UI', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20),),
-              const Spacer(),
-              const Icon(Icons.more_horiz, color: Colors.black87,),
-            ],
-          ),
-          const SizedBox(height: 8,),
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Text('Gather Jane and Joan and finish the header design according to the decisions made by the board.', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.w300),),
-          ),
-          const SizedBox(height: 16,),
-          Row(
-            children: [
-              Chip(
-                label: Text('HIGH', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),),
-                backgroundColor: const Color(0xFFFF005E),
-                labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-              ),
-              const Spacer(),
-              const Icon(Icons.calendar_today, color: Colors.blueAccent,),
-              const SizedBox(width: 6,),
-              Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),)
-            ],
-          ),
-        ],
-      ),
     );
   }
 }
