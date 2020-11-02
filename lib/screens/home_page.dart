@@ -100,28 +100,55 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container buildFAB() {
-    return Container(
-      padding: const EdgeInsets.only(left: 11, top: 10, bottom: 10, right: 14),
-      decoration: BoxDecoration(
-        // ignore: prefer_const_literals_to_create_immutables
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.black26,
-            blurRadius: 6,
-            offset: Offset(1.0, 2.0),
-          ),
-        ],
-        color: Colors.blueAccent,
-        borderRadius: BorderRadius.circular(40.0),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.add, color: Colors.white, size: 20,),
-          const SizedBox(width: 4),
-          Text('Add Task', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 16),)
-        ],
+  Widget buildFAB() {
+    return GestureDetector(
+      onTap: () {
+        showDialog(context: context, builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text('Add Task', style: GoogleFonts.montserrat(fontSize: 16),),
+                actions: [
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Done', style: GoogleFonts.montserrat(),),
+                  ),
+                ],
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+
+                  ],
+                ),
+              );
+            },
+          );
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 11, top: 10, bottom: 10, right: 14),
+        decoration: BoxDecoration(
+          // ignore: prefer_const_literals_to_create_immutables
+          boxShadow: [
+            const BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: Offset(1.0, 2.0),
+            ),
+          ],
+          color: Colors.blueAccent,
+          borderRadius: BorderRadius.circular(40.0),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.add, color: Colors.white, size: 20,),
+            const SizedBox(width: 4),
+            Text('Add Task', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 16),)
+          ],
+        ),
       ),
     );
   }

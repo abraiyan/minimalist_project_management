@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +10,7 @@ class ItemMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double headerFontSize = 17;
+    const double headerFontSize = 16;
     const double descriptionFontSize = 14;
     const double dateFontSize = 12;
 
@@ -33,7 +34,25 @@ class ItemMain extends StatelessWidget {
             children: [
               Text('Finish The UI', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: headerFontSize),),
               const Spacer(),
-              const Icon(Icons.more_horiz, color: Colors.black87,),
+              // ignore: sized_box_for_whitespace
+              Container(
+                width: 26,
+                height: 26,
+                child: PopupMenuButton(
+                  padding: const EdgeInsets.only(left: 6),
+                  itemBuilder: (context) => <PopupMenuItem<String>>[
+                     PopupMenuItem<String>(
+                      value: 'Edit',
+                      child: Text('Edit', style: GoogleFonts.montserrat(color: Colors.black87),),
+                    ),
+                     PopupMenuItem<String>(
+                      value: 'Delete',
+                      child: Text('Delete', style: GoogleFonts.montserrat(color: Colors.black87),),
+                    ),
+                  ],
+
+                ),
+              ),
             ],
           ),
 
