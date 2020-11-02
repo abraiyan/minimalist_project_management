@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sideappbarui/constants/constant_color.dart';
 import 'package:sideappbarui/widgets/item_main.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,6 +102,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildFAB() {
+    int indexSelected = -1;
     return GestureDetector(
       onTap: () {
         showDialog(context: context, builder: (context) {
@@ -116,34 +118,77 @@ class _HomePageState extends State<HomePage> {
                     child: Text('Done', style: GoogleFonts.montserrat(),),
                   ),
                 ],
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Task Name',
-                        hintText: 'Enter the name of the task',
-                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
-                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
-                        border:  OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                content: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Task Name',
+                          hintText: 'Enter the name of the task',
+                          labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                          hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                          border:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                        hintText: 'Enter the details of your task',
-                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
-                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
-                        border:  OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      const SizedBox(height: 8),
+                      TextField(
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          labelText: 'Description',
+                          hintText: 'Enter the details of your task',
+                          labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                          hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                          border:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      Wrap(
+                        children: [
+                          ChoiceChip(
+                            label: const Text('HIGH'),
+                            labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                            selectedColor: ConstantColor.kColorChipHigh,
+                            selected: indexSelected == 0,
+                            onSelected: (value) {
+                              setState(() {
+                                indexSelected = value ? 0 : -1;
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          ChoiceChip(
+                            label: const Text('MEDIUM'),
+                            labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                            selectedColor: ConstantColor.kColorChipMedium,
+                            selected: indexSelected == 1,
+                            onSelected: (value) {
+                              setState(() {
+                                indexSelected = value ? 1 : -1;
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          ChoiceChip(
+                            label: const Text('LOW'),
+                            labelStyle: GoogleFonts.poppins(fontSize: 12),
+                            selectedColor: ConstantColor.kColorChipLow,
+                            selected: indexSelected == 2,
+                            onSelected: (value) {
+                              setState(() {
+                                indexSelected = value ? 2 : -1;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
