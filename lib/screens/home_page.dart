@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
             backgroundImage: AssetImage('assets/03w.jpg'),
           ),
           const SizedBox(width: 12,),
-          Text('Hello Kitty', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
+          Text('Helena Jobs', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
         ],
       ),
       actions: [

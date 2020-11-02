@@ -9,12 +9,12 @@ class ItemMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double headerFontSize = 18;
-    const double descriptionFontSize = 16;
-    const double dateFontSize = 14;
+    const double headerFontSize = 17;
+    const double descriptionFontSize = 14;
+    const double dateFontSize = 12;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: Colors.white,
@@ -36,7 +36,7 @@ class ItemMain extends StatelessWidget {
               const Icon(Icons.more_horiz, color: Colors.black87,),
             ],
           ),
-          const SizedBox(height: 8,),
+
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Text('Gather Jane and Joan and finish the header design according to the decisions made by the board. ', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: descriptionFontSize, fontWeight: FontWeight.w300),),
@@ -50,12 +50,12 @@ class ItemMain extends StatelessWidget {
                   color: const Color(0xFFFF005E),
                   borderRadius: BorderRadius.circular(40.0),
                 ),
-                child: Text('HIGH', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),),
+                child: Text('HIGH', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
               ),
               const Spacer(),
-              const Icon(Icons.calendar_today, color: Colors.blueAccent, size: 20,),
-              const SizedBox(width: 6,),
-              Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: dateFontSize, letterSpacing: 1.2),)
+              const Icon(Icons.calendar_today, color: Colors.blueAccent, size: 18,),
+              const SizedBox(width: 4),
+              Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: dateFontSize, letterSpacing: 1.1),)
             ],
           ),
         ],
