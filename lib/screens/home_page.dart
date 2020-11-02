@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: PageView.builder(
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         controller: pageController,
         onPageChanged: (value) {
           setState(() {
@@ -119,7 +119,30 @@ class _HomePageState extends State<HomePage> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Task Name',
+                        hintText: 'Enter the name of the task',
+                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                        border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        hintText: 'Enter the details of your task',
+                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                        border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               );
