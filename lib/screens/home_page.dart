@@ -15,6 +15,12 @@ class _HomePageState extends State<HomePage> {
   PageController pageController;
   bool isJumping = false;
 
+  List<String> titles = [
+    'To Do',
+    'Doing',
+    'Done'
+  ];
+
   @override
   void initState() {
     pageController = PageController(initialPage: currentIndexPageController, keepPage: false, viewportFraction: 0.88,);
@@ -32,12 +38,13 @@ class _HomePageState extends State<HomePage> {
         physics: const ClampingScrollPhysics(),
         controller: pageController,
         onPageChanged: (value) {
+          print(value);
           setState(() {
             if(isJumping) return;
             bottomNavBarIndex = value;
           });
         },
-        itemCount: 3,
+        itemCount: titles.length,
         itemBuilder: (context, index) {
           return AnimatedBuilder(
             animation: pageController,
@@ -64,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Row(
                     children: [
-                      Text('To Do', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
+                      Text(titles[index], style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
                       const Spacer(),
                       const Icon(Icons.add, color: Colors.black87,),
                       const SizedBox(width: 6,),
@@ -118,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text('Done', style: GoogleFonts.montserrat(),),
                   ),
                 ],
+                // ignore: sized_box_for_whitespace
                 content: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Column(

@@ -30,10 +30,13 @@ dependencies:
   cupertino_icons: ^1.0.0
   google_fonts:
   lint:
+  moor_flutter:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  moor_generator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
