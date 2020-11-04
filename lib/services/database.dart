@@ -6,9 +6,9 @@ part 'database.g.dart';
 @DataClassName('Item')
 class ItemTable extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get parentID => integer().withDefault(const Constant(0))();
+  IntColumn get parentID => integer()();
   TextColumn get title => text().withLength(min: 1, max: 20)();
-  TextColumn get description => text().withLength(min: 1, max: 20)();
+  TextColumn get description => text().withLength(min: 1, max: 100)();
   IntColumn get priority => integer().withDefault(const Constant(0))();
 }
 
@@ -17,7 +17,17 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   final AppDatabase db;
   ItemsDao(this.db) : super(db);
 
-  Stream<List<Item>> watchAllitems() => select(itemTable).watch();
+  Stream<List<Item>> watchAllItemsById(int id) {
+    return (
+        select(itemTable)
+          ..where((tbl) {
+            return tbl.parentID.equals(id);
+          })
+    )
+        .watch();
+  }
+
+  Stream<List<Item>> watchAllItems() => select(itemTable).watch();
   Future insertItem(Insertable<Item> item) => into(itemTable).insert(item);
   Future updateItem(Insertable<Item> item) => update(itemTable).replace(item);
   Future deleteItem(Insertable<Item> item) => delete(itemTable).delete(item);

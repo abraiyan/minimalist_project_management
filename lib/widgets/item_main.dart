@@ -1,18 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:sideappbarui/services/database.dart';
 
 class ItemMain extends StatelessWidget {
 
+  final Item item;
+
   const ItemMain({
-    Key key,
+    Key key, this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const double headerFontSize = 16;
     const double descriptionFontSize = 14;
-    const double dateFontSize = 12;
+    //const double dateFontSize = 12;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -28,11 +32,12 @@ class ItemMain extends StatelessWidget {
           ]
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              Text('Finish The UI', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: headerFontSize),),
+              Text(item.title, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: headerFontSize),),
               const Spacer(),
               // ignore: sized_box_for_whitespace
               Container(
@@ -40,6 +45,11 @@ class ItemMain extends StatelessWidget {
                 height: 26,
                 child: PopupMenuButton(
                   padding: const EdgeInsets.only(left: 6),
+                  onSelected: (value) {
+                    if(value == 'Delete') {
+                      Provider.of<ItemsDao>(context, listen: false).deleteItem(item);
+                    }
+                  },
                   itemBuilder: (context) => <PopupMenuItem<String>>[
                      PopupMenuItem<String>(
                       value: 'Edit',
@@ -58,7 +68,7 @@ class ItemMain extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: Text('Gather Jane and Joan and finish the header design according to the decisions made by the board. ', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: descriptionFontSize, fontWeight: FontWeight.w300),),
+            child: Text(item.description, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: descriptionFontSize, fontWeight: FontWeight.w300),),
           ),
           const SizedBox(height: 16,),
           Row(
@@ -66,19 +76,40 @@ class ItemMain extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF005E),
+                  color: priorityColor(item.priority),
                   borderRadius: BorderRadius.circular(40.0),
                 ),
-                child: Text('HIGH', style: GoogleFonts.montserrat(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
+                child: Text(priorityText(item.priority), style: GoogleFonts.montserrat(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
               ),
               const Spacer(),
-              const Icon(Icons.calendar_today, color: Colors.blueAccent, size: 18,),
-              const SizedBox(width: 4),
-              Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: dateFontSize, letterSpacing: 1.1),)
+              //const Icon(Icons.calendar_today, color: Colors.blueAccent, size: 18,),
+              //const SizedBox(width: 4),
+              //Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: dateFontSize, letterSpacing: 1.1),)
             ],
           ),
         ],
       ),
     );
   }
+
+  String priorityText(int id) {
+    if(id == 0) {
+      return 'HIGH';
+    } else if(id == 1){
+      return 'MEDIUM';
+    } else if(id == 2) {
+      return 'LOW';
+    }
+  }
+  Color priorityColor(int id) {
+    if(id == 0) {
+      return const Color(0xffFF005E);
+    } else if(id == 1){
+      return const Color(0xffA900FF);
+    } else if(id == 2) {
+      return const Color(0xff00B2FF);
+    }
+  }
+
+
 }

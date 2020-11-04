@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:moor_flutter/moor_flutter.dart' as moor;
+import 'package:provider/provider.dart';
 import 'package:sideappbarui/constants/constant_color.dart';
+import 'package:sideappbarui/services/database.dart';
 import 'package:sideappbarui/widgets/item_main.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   int currentIndexPageController = 0;
   PageController pageController;
   bool isJumping = false;
+  int indexID = 0;
 
   List<String> titles = [
     'To Do',
@@ -38,78 +42,91 @@ class _HomePageState extends State<HomePage> {
         physics: const ClampingScrollPhysics(),
         controller: pageController,
         onPageChanged: (value) {
-          print(value);
           setState(() {
+            indexID = value;
             if(isJumping) return;
             bottomNavBarIndex = value;
           });
         },
         itemCount: titles.length,
         itemBuilder: (context, index) {
-          return AnimatedBuilder(
-            animation: pageController,
-            builder: (context, child) {
-              double value = 1;
-              if(pageController.position.haveDimensions) {
-                value = pageController.page - index;
-                value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
-              }
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: Curves.easeInOut.transform(value) * (MediaQuery.of(context).size.height * 0.8),
-                  child: Opacity(
-                    opacity: value,
-                    child: child,
-                  ),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(titles[index], style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
-                      const Spacer(),
-                      const Icon(Icons.add, color: Colors.black87,),
-                      const SizedBox(width: 6,),
-                      const Icon(Icons.more_vert, color: Colors.black87,),
-                    ],
-                  ),
-                  const Divider(
-                    color: Colors.black87,
-                    thickness: 0.7,
-                  ),
-                  const SizedBox(height: 12,),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const ItemMain(),
-                            // ignore: prefer_const_literals_to_create_immutables
-                            const SizedBox(height: 14,),
-                          ],
-                        );
-                      },
+            return AnimatedBuilder(
+              animation: pageController,
+              builder: (context, child) {
+                double value = 1;
+                if(pageController.position.haveDimensions) {
+                  value = pageController.page - index;
+                  value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
+                }
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    height: Curves.easeInOut.transform(value) * (MediaQuery.of(context).size.height * 0.8),
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
                     ),
                   ),
-                ],
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(titles[index], style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
+                        const Spacer(),
+                        const Icon(Icons.add, color: Colors.black87,),
+                        const SizedBox(width: 6,),
+                        const Icon(Icons.more_vert, color: Colors.black87,),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.black87,
+                      thickness: 0.7,
+                    ),
+                    const SizedBox(height: 12,),
+                    Expanded(
+                      child: (indexID == index) ? StreamBuilder(
+                        stream: Provider.of<ItemsDao>(context).watchAllItemsById(indexID),
+                        builder: (context, AsyncSnapshot<List<Item>> snapshot) {
+                          if(snapshot.hasData) {
+                            return ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                final Item currentItem = snapshot.data[index];
+                                return Column(
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: [
+                                    ItemMain(item: currentItem,),
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    const SizedBox(height: 14,),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                          return const Center(child: Text('GG'),);
+                        },
+                      ) : const Center(child: Text('GG'),),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
         },
       ),
     );
   }
 
   Widget buildFAB() {
+
+    TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
     int indexSelected = -1;
+
     return GestureDetector(
       onTap: () {
         showDialog(context: context, builder: (context) {
@@ -120,6 +137,8 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   FlatButton(
                     onPressed: () {
+                      final item = ItemTableCompanion(title: moor.Value(titleController.text.toString()), description: moor.Value(descriptionController.text.toString()), priority: moor.Value(indexSelected), parentID: moor.Value(indexID));
+                      Provider.of<ItemsDao>(context, listen: false).insertItem(item);
                       Navigator.pop(context);
                     },
                     child: Text('Done', style: GoogleFonts.montserrat(),),
@@ -128,10 +147,11 @@ class _HomePageState extends State<HomePage> {
                 // ignore: sized_box_for_whitespace
                 content: Container(
                   width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                  height: 240,
+                  child: ListView(
                     children: [
                       TextField(
+                        controller: titleController,
                         decoration: InputDecoration(
                           labelText: 'Task Name',
                           hintText: 'Enter the name of the task',
@@ -144,6 +164,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 8),
                       TextField(
+                        controller: descriptionController,
                         maxLines: 3,
                         decoration: InputDecoration(
                           labelText: 'Description',
@@ -157,6 +178,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 8),
                       Wrap(
+                        alignment: WrapAlignment.center,
                         children: [
                           ChoiceChip(
                             label: const Text('HIGH'),
@@ -283,7 +305,9 @@ class _HomePageState extends State<HomePage> {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<ItemsDao>(context, listen: false).deleteAllItem();
+          },
           icon: const Icon(Icons.more_vert, color: Colors.black87,),
         ),
       ],

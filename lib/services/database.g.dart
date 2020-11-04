@@ -155,11 +155,12 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
   });
   ItemTableCompanion.insert({
     this.id = const Value.absent(),
-    this.parentID = const Value.absent(),
+    @required int parentID,
     @required String title,
     @required String description,
     this.priority = const Value.absent(),
-  })  : title = Value(title),
+  })  : parentID = Value(parentID),
+        title = Value(title),
         description = Value(description);
   static Insertable<Item> custom({
     Expression<int> id,
@@ -244,8 +245,11 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
   @override
   GeneratedIntColumn get parentID => _parentID ??= _constructParentID();
   GeneratedIntColumn _constructParentID() {
-    return GeneratedIntColumn('parent_i_d', $tableName, false,
-        defaultValue: const Constant(0));
+    return GeneratedIntColumn(
+      'parent_i_d',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _titleMeta = const VerificationMeta('title');
@@ -265,7 +269,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
       _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
     return GeneratedTextColumn('description', $tableName, false,
-        minTextLength: 1, maxTextLength: 20);
+        minTextLength: 1, maxTextLength: 100);
   }
 
   final VerificationMeta _priorityMeta = const VerificationMeta('priority');
@@ -297,6 +301,8 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
     if (data.containsKey('parent_i_d')) {
       context.handle(_parentIDMeta,
           parentID.isAcceptableOrUnknown(data['parent_i_d'], _parentIDMeta));
+    } else if (isInserting) {
+      context.missing(_parentIDMeta);
     }
     if (data.containsKey('title')) {
       context.handle(

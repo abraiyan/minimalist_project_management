@@ -31,6 +31,7 @@ dependencies:
   google_fonts:
   lint:
   moor_flutter:
+  provider:
 
 dev_dependencies:
   flutter_test:
