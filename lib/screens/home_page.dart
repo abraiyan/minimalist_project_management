@@ -125,6 +125,9 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       final item = ItemTableCompanion(title: moor.Value(titleController.text.toString()), description: moor.Value(descriptionController.text.toString()), priority: moor.Value(indexSelected), parentID: moor.Value(indexID));
                       Provider.of<ItemsDao>(context, listen: false).insertItem(item);
+                      titleController.clear();
+                      descriptionController.clear();
+                      indexSelected = -1;
                       Navigator.pop(context);
                     },
                     child: Text('Done', style: GoogleFonts.montserrat(),),

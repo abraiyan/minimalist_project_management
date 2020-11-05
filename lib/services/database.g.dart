@@ -17,7 +17,7 @@ class Item extends DataClass implements Insertable<Item> {
       {@required this.id,
       @required this.parentID,
       @required this.title,
-      @required this.description,
+      this.description,
       @required this.priority});
   factory Item.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -157,11 +157,10 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
     this.id = const Value.absent(),
     @required int parentID,
     @required String title,
-    @required String description,
+    this.description = const Value.absent(),
     this.priority = const Value.absent(),
   })  : parentID = Value(parentID),
-        title = Value(title),
-        description = Value(description);
+        title = Value(title);
   static Insertable<Item> custom({
     Expression<int> id,
     Expression<int> parentID,
@@ -268,8 +267,8 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
   GeneratedTextColumn get description =>
       _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn('description', $tableName, false,
-        minTextLength: 1, maxTextLength: 100);
+    return GeneratedTextColumn('description', $tableName, true,
+        minTextLength: 0, maxTextLength: 100);
   }
 
   final VerificationMeta _priorityMeta = const VerificationMeta('priority');
@@ -315,8 +314,6 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description'], _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
     }
     if (data.containsKey('priority')) {
       context.handle(_priorityMeta,
