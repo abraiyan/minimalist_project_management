@@ -88,8 +88,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 12,),
                     Expanded(
-                      child: (indexID == index) ? StreamBuilder(
-                        stream: Provider.of<ItemsDao>(context).watchAllItemsById(indexID),
+                      child: (indexID == index || indexID == index + 1 || indexID == index - 1) ? StreamBuilder(
+                        stream: Provider.of<ItemsDao>(context).watchAllItemsById(index),
                         builder: (context, AsyncSnapshot<List<Item>> snapshot) {
                           if(snapshot.hasData) {
                             return ListView.builder(
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                               },
                             );
                           }
-                          return const Center(child: Text('GG'),);
+                          return const Center(child: Text('No Data'),);
                         },
                       ) : const Center(child: Text('GG'),),
                     ),
