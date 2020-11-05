@@ -4,6 +4,7 @@ import 'package:moor_flutter/moor_flutter.dart' as moor;
 import 'package:provider/provider.dart';
 import 'package:sideappbarui/constants/constant_color.dart';
 import 'package:sideappbarui/services/database.dart';
+import 'package:sideappbarui/widgets/header_widget.dart';
 import 'package:sideappbarui/widgets/item_main.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,12 +19,7 @@ class _HomePageState extends State<HomePage> {
   PageController pageController;
   bool isJumping = false;
   int indexID = 0;
-
-  List<String> titles = [
-    'To Do',
-    'Doing',
-    'Done'
-  ];
+  int indexSelected = -1; //for_priority
 
   @override
   void initState() {
@@ -38,94 +34,84 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
-      body: PageView.builder(
-        physics: const ClampingScrollPhysics(),
-        controller: pageController,
-        onPageChanged: (value) {
-          setState(() {
-            indexID = value;
-            if(isJumping) return;
-            bottomNavBarIndex = value;
-          });
-        },
-        itemCount: titles.length,
-        itemBuilder: (context, index) {
-            return AnimatedBuilder(
-              animation: pageController,
-              builder: (context, child) {
-                double value = 1;
-                if(pageController.position.haveDimensions) {
-                  value = pageController.page - index;
-                  value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
-                }
-                return Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    height: Curves.easeInOut.transform(value) * (MediaQuery.of(context).size.height * 0.8),
-                    child: Opacity(
-                      opacity: value,
-                      child: child,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: PageView.builder(
+          physics: const ClampingScrollPhysics(),
+          controller: pageController,
+          onPageChanged: (value) {
+            setState(() {
+              indexID = value;
+              if(isJumping) return;
+              bottomNavBarIndex = value;
+            });
+          },
+          itemCount: Constants.kTitles.length,
+          itemBuilder: (context, index) {
+              return AnimatedBuilder(
+                animation: pageController,
+                builder: (context, child) {
+                  double value = 1;
+                  if(pageController.position.haveDimensions) {
+                    value = pageController.page - index;
+                    value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0).toDouble();
+                  }
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      height: Curves.easeInOut.transform(value) * (MediaQuery.of(context).size.height * 0.8),
+                      child: Opacity(
+                        opacity: value,
+                        child: child,
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(titles[index], style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
-                        const Spacer(),
-                        const Icon(Icons.add, color: Colors.black87,),
-                        const SizedBox(width: 6,),
-                        const Icon(Icons.more_vert, color: Colors.black87,),
-                      ],
-                    ),
-                    const Divider(
-                      color: Colors.black87,
-                      thickness: 0.7,
-                    ),
-                    const SizedBox(height: 12,),
-                    Expanded(
-                      child: (indexID == index || indexID == index + 1 || indexID == index - 1) ? StreamBuilder(
-                        stream: Provider.of<ItemsDao>(context).watchAllItemsById(index),
-                        builder: (context, AsyncSnapshot<List<Item>> snapshot) {
-                          if(snapshot.hasData) {
-                            return ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                final Item currentItem = snapshot.data[index];
-                                return Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    ItemMain(item: currentItem,),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      HeaderWidget(titles: Constants.kTitles[index]),
+                      const SizedBox(height: 12,),
+                      Expanded(
+                        child: (indexID == index || indexID == index + 1 || indexID == index - 1) ? StreamBuilder(
+                          stream: Provider.of<ItemsDao>(context).watchAllItemsById(index),
+                          builder: (context, AsyncSnapshot<List<Item>> snapshot) {
+                            if(snapshot.hasData) {
+                              return ListView.builder(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  final Item currentItem = snapshot.data[index];
+                                  return Column(
                                     // ignore: prefer_const_literals_to_create_immutables
-                                    const SizedBox(height: 14,),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                          return const Center(child: Text('No Data'),);
-                        },
-                      ) : const Center(child: Text('GG'),),
-                    ),
-                  ],
+                                    children: [
+                                      ItemMain(item: currentItem),
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      const SizedBox(height: 14,),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            return const Center(child: Text('No Data'),);
+                          },
+                        ) : const Center(child: Text('GG'),),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-        },
+              );
+          },
+        ),
       ),
     );
   }
 
   Widget buildFAB() {
 
-    TextEditingController titleController = TextEditingController();
-    TextEditingController descriptionController = TextEditingController();
-    int indexSelected = -1;
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
 
     return GestureDetector(
       onTap: () {
@@ -147,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                 // ignore: sized_box_for_whitespace
                 content: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 240,
+                  height: 220,
                   child: ListView(
                     children: [
                       TextField(
@@ -165,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 8),
                       TextField(
                         controller: descriptionController,
-                        maxLines: 3,
+                        maxLines: 2,
                         decoration: InputDecoration(
                           labelText: 'Description',
                           hintText: 'Enter the details of your task',
@@ -183,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                           ChoiceChip(
                             label: const Text('HIGH'),
                             labelStyle: GoogleFonts.montserrat(fontSize: 12),
-                            selectedColor: ConstantColor.kColorChipHigh,
+                            selectedColor: Constants.kColorChipHigh,
                             selected: indexSelected == 0,
                             onSelected: (value) {
                               setState(() {
@@ -195,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                           ChoiceChip(
                             label: const Text('MEDIUM'),
                             labelStyle: GoogleFonts.montserrat(fontSize: 12),
-                            selectedColor: ConstantColor.kColorChipMedium,
+                            selectedColor: Constants.kColorChipMedium,
                             selected: indexSelected == 1,
                             onSelected: (value) {
                               setState(() {
@@ -207,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                           ChoiceChip(
                             label: const Text('LOW'),
                             labelStyle: GoogleFonts.poppins(fontSize: 12),
-                            selectedColor: ConstantColor.kColorChipLow,
+                            selectedColor: Constants.kColorChipLow,
                             selected: indexSelected == 2,
                             onSelected: (value) {
                               setState(() {
@@ -314,4 +300,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 

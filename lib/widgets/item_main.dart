@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sideappbarui/constants/constant_color.dart';
 import 'package:sideappbarui/services/database.dart';
+import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class ItemMain extends StatelessWidget {
 
@@ -16,7 +18,7 @@ class ItemMain extends StatelessWidget {
   Widget build(BuildContext context) {
     const double headerFontSize = 16;
     const double descriptionFontSize = 14;
-    //const double dateFontSize = 12;
+    int indexSelected = item.priority;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -48,6 +50,105 @@ class ItemMain extends StatelessWidget {
                   onSelected: (value) {
                     if(value == 'Delete') {
                       Provider.of<ItemsDao>(context, listen: false).deleteItem(item);
+                    }
+                    if(value == 'Edit') {
+                      showDialog(context: context, builder: (context) {
+                        final TextEditingController titleController = TextEditingController()..text = item.title;
+                        final TextEditingController descriptionController = TextEditingController()..text = item.description;
+
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Text('Edit Task', style: GoogleFonts.montserrat(fontSize: 16),),
+                              actions: [
+                                FlatButton(
+                                  onPressed: () {
+                                    Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(title: titleController.text.toString(), description: descriptionController.text.toString(), priority: indexSelected));
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Done', style: GoogleFonts.montserrat(),),
+                                ),
+                              ],
+                              // ignore: sized_box_for_whitespace
+                              content: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 220,
+                                child: ListView(
+                                  children: [
+                                    TextField(
+                                      controller: titleController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Task Name',
+                                        hintText: 'Enter the name of the task',
+                                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                                        border:  OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    TextField(
+                                      controller: descriptionController,
+                                      maxLines: 2,
+                                      decoration: InputDecoration(
+                                        labelText: 'Description',
+                                        hintText: 'Enter the details of your task',
+                                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                                        border:  OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Wrap(
+                                      alignment: WrapAlignment.center,
+                                      children: [
+                                        ChoiceChip(
+                                          label: const Text('HIGH'),
+                                          labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                                          selectedColor: Constants.kColorChipHigh,
+                                          selected: indexSelected == 0,
+                                          onSelected: (value) {
+                                            setState(() {
+                                              indexSelected = value ? 0 : -1;
+                                            });
+                                          },
+                                        ),
+                                        const SizedBox(width: 8),
+                                        ChoiceChip(
+                                          label: const Text('MEDIUM'),
+                                          labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                                          selectedColor: Constants.kColorChipMedium,
+                                          selected: indexSelected == 1,
+                                          onSelected: (value) {
+                                            setState(() {
+                                              indexSelected = value ? 1 : -1;
+                                            });
+                                          },
+                                        ),
+                                        const SizedBox(width: 8),
+                                        ChoiceChip(
+                                          label: const Text('LOW'),
+                                          labelStyle: GoogleFonts.poppins(fontSize: 12),
+                                          selectedColor: Constants.kColorChipLow,
+                                          selected: indexSelected == 2,
+                                          onSelected: (value) {
+                                            setState(() {
+                                              indexSelected = value ? 2 : -1;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      });
                     }
                   },
                   itemBuilder: (context) => <PopupMenuItem<String>>[
