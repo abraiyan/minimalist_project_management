@@ -13,17 +13,20 @@ class Item extends DataClass implements Insertable<Item> {
   final String title;
   final String description;
   final int priority;
+  final bool isDone;
   Item(
       {@required this.id,
       @required this.parentID,
       @required this.title,
       this.description,
-      @required this.priority});
+      @required this.priority,
+      this.isDone});
   factory Item.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     return Item(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       parentID:
@@ -34,6 +37,8 @@ class Item extends DataClass implements Insertable<Item> {
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       priority:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}priority']),
+      isDone:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_done']),
     );
   }
   @override
@@ -54,6 +59,9 @@ class Item extends DataClass implements Insertable<Item> {
     if (!nullToAbsent || priority != null) {
       map['priority'] = Variable<int>(priority);
     }
+    if (!nullToAbsent || isDone != null) {
+      map['is_done'] = Variable<bool>(isDone);
+    }
     return map;
   }
 
@@ -71,6 +79,8 @@ class Item extends DataClass implements Insertable<Item> {
       priority: priority == null && nullToAbsent
           ? const Value.absent()
           : Value(priority),
+      isDone:
+          isDone == null && nullToAbsent ? const Value.absent() : Value(isDone),
     );
   }
 
@@ -83,6 +93,7 @@ class Item extends DataClass implements Insertable<Item> {
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String>(json['description']),
       priority: serializer.fromJson<int>(json['priority']),
+      isDone: serializer.fromJson<bool>(json['isDone']),
     );
   }
   @override
@@ -94,6 +105,7 @@ class Item extends DataClass implements Insertable<Item> {
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String>(description),
       'priority': serializer.toJson<int>(priority),
+      'isDone': serializer.toJson<bool>(isDone),
     };
   }
 
@@ -102,13 +114,15 @@ class Item extends DataClass implements Insertable<Item> {
           int parentID,
           String title,
           String description,
-          int priority}) =>
+          int priority,
+          bool isDone}) =>
       Item(
         id: id ?? this.id,
         parentID: parentID ?? this.parentID,
         title: title ?? this.title,
         description: description ?? this.description,
         priority: priority ?? this.priority,
+        isDone: isDone ?? this.isDone,
       );
   @override
   String toString() {
@@ -117,7 +131,8 @@ class Item extends DataClass implements Insertable<Item> {
           ..write('parentID: $parentID, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
-          ..write('priority: $priority')
+          ..write('priority: $priority, ')
+          ..write('isDone: $isDone')
           ..write(')'))
         .toString();
   }
@@ -127,8 +142,10 @@ class Item extends DataClass implements Insertable<Item> {
       id.hashCode,
       $mrjc(
           parentID.hashCode,
-          $mrjc(title.hashCode,
-              $mrjc(description.hashCode, priority.hashCode)))));
+          $mrjc(
+              title.hashCode,
+              $mrjc(description.hashCode,
+                  $mrjc(priority.hashCode, isDone.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -137,7 +154,8 @@ class Item extends DataClass implements Insertable<Item> {
           other.parentID == this.parentID &&
           other.title == this.title &&
           other.description == this.description &&
-          other.priority == this.priority);
+          other.priority == this.priority &&
+          other.isDone == this.isDone);
 }
 
 class ItemTableCompanion extends UpdateCompanion<Item> {
@@ -146,12 +164,14 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
   final Value<String> title;
   final Value<String> description;
   final Value<int> priority;
+  final Value<bool> isDone;
   const ItemTableCompanion({
     this.id = const Value.absent(),
     this.parentID = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
     this.priority = const Value.absent(),
+    this.isDone = const Value.absent(),
   });
   ItemTableCompanion.insert({
     this.id = const Value.absent(),
@@ -159,6 +179,7 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
     @required String title,
     this.description = const Value.absent(),
     this.priority = const Value.absent(),
+    this.isDone = const Value.absent(),
   })  : parentID = Value(parentID),
         title = Value(title);
   static Insertable<Item> custom({
@@ -167,6 +188,7 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
     Expression<String> title,
     Expression<String> description,
     Expression<int> priority,
+    Expression<bool> isDone,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -174,6 +196,7 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
       if (title != null) 'title': title,
       if (description != null) 'description': description,
       if (priority != null) 'priority': priority,
+      if (isDone != null) 'is_done': isDone,
     });
   }
 
@@ -182,13 +205,15 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
       Value<int> parentID,
       Value<String> title,
       Value<String> description,
-      Value<int> priority}) {
+      Value<int> priority,
+      Value<bool> isDone}) {
     return ItemTableCompanion(
       id: id ?? this.id,
       parentID: parentID ?? this.parentID,
       title: title ?? this.title,
       description: description ?? this.description,
       priority: priority ?? this.priority,
+      isDone: isDone ?? this.isDone,
     );
   }
 
@@ -210,6 +235,9 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
     if (priority.present) {
       map['priority'] = Variable<int>(priority.value);
     }
+    if (isDone.present) {
+      map['is_done'] = Variable<bool>(isDone.value);
+    }
     return map;
   }
 
@@ -220,7 +248,8 @@ class ItemTableCompanion extends UpdateCompanion<Item> {
           ..write('parentID: $parentID, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
-          ..write('priority: $priority')
+          ..write('priority: $priority, ')
+          ..write('isDone: $isDone')
           ..write(')'))
         .toString();
   }
@@ -257,7 +286,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
   GeneratedTextColumn get title => _title ??= _constructTitle();
   GeneratedTextColumn _constructTitle() {
     return GeneratedTextColumn('title', $tableName, false,
-        minTextLength: 1, maxTextLength: 20);
+        minTextLength: 1, maxTextLength: 30);
   }
 
   final VerificationMeta _descriptionMeta =
@@ -268,7 +297,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
       _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
     return GeneratedTextColumn('description', $tableName, true,
-        minTextLength: 0, maxTextLength: 100);
+        minTextLength: 0, maxTextLength: 120);
   }
 
   final VerificationMeta _priorityMeta = const VerificationMeta('priority');
@@ -280,9 +309,18 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
         defaultValue: const Constant(0));
   }
 
+  final VerificationMeta _isDoneMeta = const VerificationMeta('isDone');
+  GeneratedBoolColumn _isDone;
+  @override
+  GeneratedBoolColumn get isDone => _isDone ??= _constructIsDone();
+  GeneratedBoolColumn _constructIsDone() {
+    return GeneratedBoolColumn('is_done', $tableName, true,
+        defaultValue: const Constant(false));
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, parentID, title, description, priority];
+      [id, parentID, title, description, priority, isDone];
   @override
   $ItemTableTable get asDslTable => this;
   @override
@@ -318,6 +356,10 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
     if (data.containsKey('priority')) {
       context.handle(_priorityMeta,
           priority.isAcceptableOrUnknown(data['priority'], _priorityMeta));
+    }
+    if (data.containsKey('is_done')) {
+      context.handle(_isDoneMeta,
+          isDone.isAcceptableOrUnknown(data['is_done'], _isDoneMeta));
     }
     return context;
   }

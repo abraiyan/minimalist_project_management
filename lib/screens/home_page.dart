@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const CircleAvatar(
             radius: 20,
-            backgroundImage: AssetImage('assets/03w.jpg'),
+            backgroundColor: Colors.blueAccent,
           ),
           const SizedBox(width: 12,),
           Text('Helena Jobs', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),

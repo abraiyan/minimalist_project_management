@@ -7,9 +7,10 @@ part 'database.g.dart';
 class ItemTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get parentID => integer()();
-  TextColumn get title => text().withLength(min: 1, max: 20)();
-  TextColumn get description => text().withLength(min: 0, max: 100).nullable()();
+  TextColumn get title => text().withLength(min: 1, max: 30)();
+  TextColumn get description => text().withLength(min: 0, max: 120).nullable()();
   IntColumn get priority => integer().withDefault(const Constant(0))();
+  BoolColumn get isDone => boolean().nullable().withDefault(const Constant(false))();
 }
 
 @UseDao(tables: [ItemTable])

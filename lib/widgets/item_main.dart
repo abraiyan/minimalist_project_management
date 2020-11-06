@@ -39,7 +39,7 @@ class ItemMain extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(item.title, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: headerFontSize),),
+              Text(item.title, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: headerFontSize, decoration: (item.isDone) ? TextDecoration.lineThrough : TextDecoration.none),),
               const Spacer(),
               // ignore: sized_box_for_whitespace
               Container(
@@ -150,6 +150,9 @@ class ItemMain extends StatelessWidget {
                         );
                       });
                     }
+                    if(value == 'Move') {
+                      Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 2));
+                    }
                   },
                   itemBuilder: (context) => <PopupMenuItem<String>>[
                      PopupMenuItem<String>(
@@ -160,6 +163,10 @@ class ItemMain extends StatelessWidget {
                       value: 'Delete',
                       child: Text('Delete', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
+                    PopupMenuItem<String>(
+                      value: 'Move',
+                      child: Text('Move To Done', style: GoogleFonts.montserrat(color: Colors.black87),),
+                    ),
                   ],
                 ),
               ),
@@ -167,8 +174,8 @@ class ItemMain extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Text(item.description, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: descriptionFontSize, fontWeight: FontWeight.w300),),
+            padding: const EdgeInsets.only(right: 24),
+            child: Text(item.description, style: GoogleFonts.montserrat(color: (item.isDone) ? Colors.black38 : Colors.black87, fontSize: descriptionFontSize, fontWeight: FontWeight.w300),),
           ),
           const SizedBox(height: 16,),
           Row(
@@ -182,9 +189,22 @@ class ItemMain extends StatelessWidget {
                 child: Text(priorityText(item.priority), style: GoogleFonts.montserrat(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500),),
               ),
               const Spacer(),
-              //const Icon(Icons.calendar_today, color: Colors.blueAccent, size: 18,),
-              //const SizedBox(width: 4),
-              //Text('12/12/20', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: dateFontSize, letterSpacing: 1.1),)
+              GestureDetector(
+                onTap: () {
+                  Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(isDone: !item.isDone));
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: (item.isDone) ? Colors.blueAccent : Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: (item.isDone) ? Colors.blueAccent : Colors.black26,
+                    ),
+                  ),
+                  child: Icon(Icons.done, color: (item.isDone) ? Colors.white : Colors.black26, size: 18),
+                ),
+              ),
             ],
           ),
         ],
