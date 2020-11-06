@@ -295,6 +295,30 @@ class _HomePageState extends State<HomePage> {
       actions: [
         PopupMenuButton(
           icon: const Icon(Icons.more_vert, color: Colors.black87,),
+          onSelected: (value) {
+            if(value == 'delete') {
+              showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  title: Text('Delete All Task?', style: GoogleFonts.montserrat(fontSize: 16),),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('No', style: GoogleFonts.montserrat(color: Colors.blueAccent),),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        Provider.of<ItemsDao>(context, listen: false).deleteAllItem();
+                        Navigator.pop(context);
+                      },
+                      child: Text('Yes', style: GoogleFonts.montserrat(color: Colors.redAccent),),
+                    ),
+                  ],
+                );
+              });
+            }
+          },
           itemBuilder: (context) => <PopupMenuItem<String>>[
             PopupMenuItem<String>(
               value: 'sort',
