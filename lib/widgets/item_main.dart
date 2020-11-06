@@ -161,7 +161,6 @@ class ItemMain extends StatelessWidget {
                       child: Text('Delete', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
                   ],
-
                 ),
               ),
             ],
