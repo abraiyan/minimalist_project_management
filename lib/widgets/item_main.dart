@@ -164,6 +164,10 @@ class ItemMain extends StatelessWidget {
                       child: Text('Delete', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
                     PopupMenuItem<String>(
+                      value: 'Doing',
+                      child: Text('Move To Doing', style: GoogleFonts.montserrat(color: Colors.black87),),
+                    ),
+                    PopupMenuItem<String>(
                       value: 'Move',
                       child: Text('Move To Done', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
