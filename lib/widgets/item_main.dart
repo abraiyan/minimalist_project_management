@@ -199,7 +199,7 @@ class ItemMain extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(isDone: !item.isDone));
-                  if(!item.isDone) {
+                  if(!item.isDone && item.parentID != 2) {
                     showDialog(context: context, builder: (_) {
                       return AlertDialog(
                         title: Text('Move task to Done?', style: GoogleFonts.montserrat(fontSize: 16),),
