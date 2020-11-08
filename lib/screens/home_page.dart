@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   bool isJumping = false;
   int indexID = 0;
   int indexSelected = -1; //for_priority
+  bool isSorted = false;
 
   @override
   void initState() {
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 12,),
                       Expanded(
                         child: (indexID == index || indexID == index + 1 || indexID == index - 1) ? StreamBuilder(
-                          stream: Provider.of<ItemsDao>(context).watchAllItemsById(index),
+                          stream: Provider.of<ItemsDao>(context).watchAllItemsById(index, isSorted),
                           builder: (context, AsyncSnapshot<List<Item>> snapshot) {
                             if(snapshot.hasData) {
                               return ListView.builder(
@@ -316,6 +317,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 );
+              });
+            }
+            if(value == 'sort') {
+              setState(() {
+                isSorted = true;
               });
             }
           },

@@ -18,12 +18,23 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
   final AppDatabase db;
   ItemsDao(this.db) : super(db);
 
-  Stream<List<Item>> watchAllItemsById(int id) {
+  // ignore: avoid_positional_boolean_parameters
+  Stream<List<Item>> watchAllItemsById(int id, bool sort) {
     return (
         select(itemTable)
           ..where((tbl) {
             return tbl.parentID.equals(id);
-          })
+          })..orderBy(
+          ([
+            // Primary sorting by due date
+                (t) {
+                  if(sort) {
+                    return OrderingTerm(expression: t.priority);
+                  }
+                  return OrderingTerm(expression: t.priority, mode: OrderingMode.desc);
+                }
+          ]),
+        )
     )
         .watch();
   }

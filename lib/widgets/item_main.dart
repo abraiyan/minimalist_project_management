@@ -150,8 +150,11 @@ class ItemMain extends StatelessWidget {
                         );
                       });
                     }
-                    if(value == 'Move') {
+                    if(value == 'Done') {
                       Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 2));
+                    }
+                    if(value == 'Doing') {
+                      Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 1));
                     }
                   },
                   itemBuilder: (context) => <PopupMenuItem<String>>[
@@ -168,7 +171,7 @@ class ItemMain extends StatelessWidget {
                       child: Text('Move To Doing', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
                     PopupMenuItem<String>(
-                      value: 'Move',
+                      value: 'Done',
                       child: Text('Move To Done', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
                   ],
@@ -196,6 +199,28 @@ class ItemMain extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(isDone: !item.isDone));
+                  if(!item.isDone) {
+                    showDialog(context: context, builder: (_) {
+                      return AlertDialog(
+                        title: Text('Move task to Done?', style: GoogleFonts.montserrat(fontSize: 16),),
+                        actions: [
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('No', style: GoogleFonts.montserrat(color: Colors.blueAccent),),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 2));
+                              Navigator.pop(context);
+                            },
+                            child: Text('Yes', style: GoogleFonts.montserrat(color: Colors.redAccent),),
+                          ),
+                        ],
+                      );
+                    });
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(3),
