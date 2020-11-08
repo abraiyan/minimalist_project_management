@@ -212,7 +212,7 @@ class ItemMain extends StatelessWidget {
                           ),
                           FlatButton(
                             onPressed: () {
-                              Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 2));
+                              Provider.of<ItemsDao>(context, listen: false).updateItem(item.copyWith(parentID: 2, isDone: !item.isDone));
                               Navigator.pop(context);
                             },
                             child: Text('Yes', style: GoogleFonts.montserrat(color: Colors.redAccent),),
