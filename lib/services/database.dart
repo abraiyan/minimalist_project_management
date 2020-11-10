@@ -31,7 +31,7 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
                   if(sort) {
                     return OrderingTerm(expression: t.priority);
                   }
-                  return OrderingTerm(expression: t.priority, mode: OrderingMode.desc);
+                  return OrderingTerm(expression: t.id);
                 }
           ]),
         )
