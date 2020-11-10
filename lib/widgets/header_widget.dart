@@ -18,8 +18,6 @@ class HeaderWidget extends StatelessWidget {
           children: [
             Text(titles, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.w500),),
             const Spacer(),
-            const Icon(Icons.add, color: Colors.black87,),
-            const SizedBox(width: 6,),
             const Icon(Icons.more_vert, color: Colors.black87,),
           ],
         ),
