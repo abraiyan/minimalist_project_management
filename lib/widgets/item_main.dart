@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sideappbarui/constants/constant_color.dart';
 import 'package:sideappbarui/services/database.dart';
-import 'package:moor_flutter/moor_flutter.dart' as moor;
 
 class ItemMain extends StatelessWidget {
 

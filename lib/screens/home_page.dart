@@ -321,7 +321,7 @@ class _HomePageState extends State<HomePage> {
             }
             if(value == 'sort') {
               setState(() {
-                isSorted = true;
+                isSorted = !isSorted;
               });
             }
           },
