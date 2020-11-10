@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: [
-                      HeaderWidget(titles: Constants.kTitles[index]),
+                      HeaderWidget(titles: Constants.kTitles[index], index: index),
                       const SizedBox(height: 12,),
                       Expanded(
                         child: (indexID == index || indexID == index + 1 || indexID == index - 1) ? StreamBuilder(
@@ -117,102 +117,7 @@ class _HomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () {
         showDialog(context: context, builder: (context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return AlertDialog(
-                title: Text('Add Task', style: GoogleFonts.montserrat(fontSize: 16),),
-                actions: [
-                  FlatButton(
-                    onPressed: () {
-                      final item = ItemTableCompanion(title: moor.Value(titleController.text.toString()), description: moor.Value(descriptionController.text.toString()), priority: moor.Value(indexSelected), parentID: moor.Value(indexID));
-                      Provider.of<ItemsDao>(context, listen: false).insertItem(item);
-                      titleController.clear();
-                      descriptionController.clear();
-                      indexSelected = -1;
-                      Navigator.pop(context);
-                    },
-                    child: Text('Done', style: GoogleFonts.montserrat(),),
-                  ),
-                ],
-                // ignore: sized_box_for_whitespace
-                content: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 220,
-                  child: ListView(
-                    children: [
-                      TextField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                          labelText: 'Task Name',
-                          hintText: 'Enter the name of the task',
-                          labelStyle: GoogleFonts.montserrat(fontSize: 14),
-                          hintStyle: GoogleFonts.montserrat(fontSize: 14),
-                          border:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: descriptionController,
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          labelText: 'Description',
-                          hintText: 'Enter the details of your task',
-                          labelStyle: GoogleFonts.montserrat(fontSize: 14),
-                          hintStyle: GoogleFonts.montserrat(fontSize: 14),
-                          border:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        children: [
-                          ChoiceChip(
-                            label: const Text('HIGH'),
-                            labelStyle: GoogleFonts.montserrat(fontSize: 12),
-                            selectedColor: Constants.kColorChipHigh,
-                            selected: indexSelected == 0,
-                            onSelected: (value) {
-                              setState(() {
-                                indexSelected = value ? 0 : -1;
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          ChoiceChip(
-                            label: const Text('MEDIUM'),
-                            labelStyle: GoogleFonts.montserrat(fontSize: 12),
-                            selectedColor: Constants.kColorChipMedium,
-                            selected: indexSelected == 1,
-                            onSelected: (value) {
-                              setState(() {
-                                indexSelected = value ? 1 : -1;
-                              });
-                            },
-                          ),
-                          const SizedBox(width: 8),
-                          ChoiceChip(
-                            label: const Text('LOW'),
-                            labelStyle: GoogleFonts.poppins(fontSize: 12),
-                            selectedColor: Constants.kColorChipLow,
-                            selected: indexSelected == 2,
-                            onSelected: (value) {
-                              setState(() {
-                                indexSelected = value ? 2 : -1;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
+          return buildAddTaskDialog(titleController, descriptionController);
         });
       },
       child: Container(
@@ -239,6 +144,105 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  StatefulBuilder buildAddTaskDialog(TextEditingController titleController, TextEditingController descriptionController) {
+    return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Add Task', style: GoogleFonts.montserrat(fontSize: 16),),
+              actions: [
+                FlatButton(
+                  onPressed: () {
+                    final item = ItemTableCompanion(title: moor.Value(titleController.text.toString()), description: moor.Value(descriptionController.text.toString()), priority: moor.Value(indexSelected), parentID: moor.Value(indexID));
+                    Provider.of<ItemsDao>(context, listen: false).insertItem(item);
+                    titleController.clear();
+                    descriptionController.clear();
+                    indexSelected = -1;
+                    Navigator.pop(context);
+                  },
+                  child: Text('Done', style: GoogleFonts.montserrat(),),
+                ),
+              ],
+              // ignore: sized_box_for_whitespace
+              content: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 220,
+                child: ListView(
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Task Name',
+                        hintText: 'Enter the name of the task',
+                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                        border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: descriptionController,
+                      maxLines: 2,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                        hintText: 'Enter the details of your task',
+                        labelStyle: GoogleFonts.montserrat(fontSize: 14),
+                        hintStyle: GoogleFonts.montserrat(fontSize: 14),
+                        border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: [
+                        ChoiceChip(
+                          label: const Text('HIGH'),
+                          labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                          selectedColor: Constants.kColorChipHigh,
+                          selected: indexSelected == 0,
+                          onSelected: (value) {
+                            setState(() {
+                              indexSelected = value ? 0 : -1;
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        ChoiceChip(
+                          label: const Text('MEDIUM'),
+                          labelStyle: GoogleFonts.montserrat(fontSize: 12),
+                          selectedColor: Constants.kColorChipMedium,
+                          selected: indexSelected == 1,
+                          onSelected: (value) {
+                            setState(() {
+                              indexSelected = value ? 1 : -1;
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        ChoiceChip(
+                          label: const Text('LOW'),
+                          labelStyle: GoogleFonts.poppins(fontSize: 12),
+                          selectedColor: Constants.kColorChipLow,
+                          selected: indexSelected == 2,
+                          onSelected: (value) {
+                            setState(() {
+                              indexSelected = value ? 2 : -1;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
   }
 
   BottomNavigationBar buildBottomNavigationBar() {

@@ -19,7 +19,7 @@ class Item extends DataClass implements Insertable<Item> {
       @required this.parentID,
       @required this.title,
       this.description,
-      @required this.priority,
+      this.priority,
       this.isDone});
   factory Item.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -297,7 +297,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
       _description ??= _constructDescription();
   GeneratedTextColumn _constructDescription() {
     return GeneratedTextColumn('description', $tableName, true,
-        minTextLength: 0, maxTextLength: 120);
+        minTextLength: 0, maxTextLength: 120, defaultValue: const Constant(''));
   }
 
   final VerificationMeta _priorityMeta = const VerificationMeta('priority');
@@ -305,7 +305,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
   @override
   GeneratedIntColumn get priority => _priority ??= _constructPriority();
   GeneratedIntColumn _constructPriority() {
-    return GeneratedIntColumn('priority', $tableName, false,
+    return GeneratedIntColumn('priority', $tableName, true,
         defaultValue: const Constant(0));
   }
 

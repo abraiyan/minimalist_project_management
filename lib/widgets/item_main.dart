@@ -167,7 +167,7 @@ class ItemMain extends StatelessWidget {
                     ),
                     PopupMenuItem<String>(
                       value: 'Doing',
-                      child: Text('Move To Doing', style: GoogleFonts.montserrat(color: Colors.black87),),
+                      child: Text('Now Doing', style: GoogleFonts.montserrat(color: Colors.black87),),
                     ),
                     PopupMenuItem<String>(
                       value: 'Done',
@@ -248,6 +248,7 @@ class ItemMain extends StatelessWidget {
     } else if(id == 2) {
       return 'LOW';
     }
+    return '';
   }
   Color priorityColor(int id) {
     if(id == 0) {
