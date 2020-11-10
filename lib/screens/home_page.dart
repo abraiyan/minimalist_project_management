@@ -328,7 +328,7 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context) => <PopupMenuItem<String>>[
             PopupMenuItem<String>(
               value: 'sort',
-              child: Text('Sort High to Low', style: GoogleFonts.montserrat(color: Colors.black87),),
+              child: Text(isSorted ? 'Sort by ID' : 'Sort High to Low', style: GoogleFonts.montserrat(color: Colors.black87),),
             ),
             PopupMenuItem<String>(
               value: 'delete',
