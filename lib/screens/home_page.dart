@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   PageController pageController;
   bool isJumping = false;
   int indexID = 0;
-  int indexSelected = -1; //for_priority
+  int indexSelected = 3; //for_priority
   bool isSorted = false;
 
   @override
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                           selected: indexSelected == 0,
                           onSelected: (value) {
                             setState(() {
-                              indexSelected = value ? 0 : -1;
+                              indexSelected = value ? 0 : 3;
                             });
                           },
                         ),
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                           selected: indexSelected == 1,
                           onSelected: (value) {
                             setState(() {
-                              indexSelected = value ? 1 : -1;
+                              indexSelected = value ? 1 : 3;
                             });
                           },
                         ),
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                           selected: indexSelected == 2,
                           onSelected: (value) {
                             setState(() {
-                              indexSelected = value ? 2 : -1;
+                              indexSelected = value ? 2 : 3;
                             });
                           },
                         ),

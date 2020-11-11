@@ -306,7 +306,7 @@ class $ItemTableTable extends ItemTable with TableInfo<$ItemTableTable, Item> {
   GeneratedIntColumn get priority => _priority ??= _constructPriority();
   GeneratedIntColumn _constructPriority() {
     return GeneratedIntColumn('priority', $tableName, true,
-        defaultValue: const Constant(0));
+        defaultValue: const Constant(3));
   }
 
   final VerificationMeta _isDoneMeta = const VerificationMeta('isDone');
