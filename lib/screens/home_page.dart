@@ -289,10 +289,6 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       title: Row(
         children: [
-          const CircleAvatar(
-            radius: 20,
-            backgroundColor: Colors.blueAccent,
-          ),
           const SizedBox(width: 12,),
           Text('Helena Jobs', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
         ],
