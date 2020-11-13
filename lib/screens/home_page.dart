@@ -290,7 +290,7 @@ class _HomePageState extends State<HomePage> {
       title: Row(
         children: [
           const SizedBox(width: 12,),
-          Text('Helena Jobs', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
+          Text('AB Raiyan', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
         ],
       ),
       actions: [
