@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       create: (context) =>  AppDatabase().itemsDao,
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false, //To hide the DEBUG red bar from the app
         home: HomePage(),
       ),
     );
