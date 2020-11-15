@@ -17,14 +17,14 @@ class _HomePageState extends State<HomePage> {
   int bottomNavBarIndex = 0;
   int currentIndexPageController = 0;
   PageController pageController;
-  bool isJumping = false;
+  bool isJumping = false; //for the bottomNavigationBar
   int indexID = 0;
   int indexSelected = 3; //for_priority
   bool isSorted = false;
 
   @override
   void initState() {
-    pageController = PageController(initialPage: currentIndexPageController, keepPage: false, viewportFraction: 0.88,);
+    pageController = PageController(initialPage: currentIndexPageController, keepPage: false, viewportFraction: 0.88);
     super.initState();
   }
 
