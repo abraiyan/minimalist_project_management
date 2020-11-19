@@ -14,9 +14,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  int bottomNavBarIndex = 0;
-  int currentIndexPageController = 0;
   PageController pageController;
+  int bottomNavBarIndex = 0; //To control the selection fo the bottom nav bar index
+  int currentIndexPageController = 0;
   bool isJumping = false; //for the bottomNavigationBar
   int indexID = 0;
   int indexSelected = 3; //for_priority
