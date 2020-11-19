@@ -9,5 +9,5 @@ class Constants {
     'To Do',
     'Doing',
     'Done'
-  ];
+  ]; //List for the headers for the PageView Builder
 }
