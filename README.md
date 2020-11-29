@@ -2,8 +2,9 @@
 
 A Flutter application 
 
-Architecture: #Provider [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/provider)
-Storage: SQLite
+Architecture: Provider [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/provider)
+
+Storage: Moor [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/moor_flutter)
 
 ## Getting Started
 
