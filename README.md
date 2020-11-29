@@ -2,9 +2,10 @@
 
 A Flutter application 
 
-Architecture: Provider [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/provider)
+## Built With
 
-Storage: Moor [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/moor_flutter)
+- [Provider](https://pub.dev/packages/provider)
+- [Moor](https://pub.dev/packages/moor_flutter)
 
 ## Getting Started
 
