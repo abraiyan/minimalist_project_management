@@ -15,6 +15,7 @@ class ItemMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     const double headerFontSize = 16;
     const double descriptionFontSize = 14;
     int indexSelected = item.priority;
