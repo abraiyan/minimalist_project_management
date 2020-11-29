@@ -13,8 +13,6 @@ class HeaderWidget extends StatelessWidget {
     @required this.titles, this.index,
   }) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
