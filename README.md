@@ -1,6 +1,8 @@
-# sideappbarui
+# Minimalistic Project Management App
 
-A new Flutter application.
+A Flutter application 
+Architecture: # Provider [![Pub Package](https://img.shields.io/pub/v/page_view_indicator.svg)](https://pub.dev/packages/provider)
+Storage: SQLite
 
 ## Getting Started
 
