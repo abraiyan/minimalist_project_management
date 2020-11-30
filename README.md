@@ -1,6 +1,11 @@
-# sideappbarui
+# Minimalistic Project Management App
 
-A new Flutter application.
+A Flutter application 
+
+## Built With
+
+- [Provider](https://pub.dev/packages/provider)
+- [Moor (SQLite)](https://pub.dev/packages/moor_flutter)
 
 ## Getting Started
 
