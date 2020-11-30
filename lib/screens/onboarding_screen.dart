@@ -8,6 +8,9 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+
+  TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +41,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ),
               Text('A Simple Task Management App\nMade By - AB Raiyan', textAlign: TextAlign.center, style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 18),),
-              const SizedBox(height: 20,),
+              const SizedBox(height: 30,),
               FlatButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));

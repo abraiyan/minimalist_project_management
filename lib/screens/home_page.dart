@@ -8,6 +8,7 @@ import 'package:sideappbarui/widgets/header_widget.dart';
 import 'package:sideappbarui/widgets/item_main.dart';
 
 class HomePage extends StatefulWidget {
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -290,7 +291,7 @@ class _HomePageState extends State<HomePage> {
       title: Row(
         children: [
           const SizedBox(width: 12,),
-          Text('AB Rian', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
+          Text('To Do', style: GoogleFonts.montserrat(color: Colors.black87, fontSize: 16),),
         ],
       ),
       actions: [
