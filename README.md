@@ -2,6 +2,9 @@
 
 A Flutter application 
 
+## Preview
+![](app_preview.gif)
+
 ## Built With
 
 - [Provider](https://pub.dev/packages/provider)
