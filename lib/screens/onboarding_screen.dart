@@ -44,7 +44,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               const SizedBox(height: 30,),
               FlatButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
                 color: Colors.blueAccent,
