@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sideappbarui/screens/home_page.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               const SizedBox(height: 20,),
               FlatButton(
                 onPressed: () {
-
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
                 color: Colors.blueAccent,

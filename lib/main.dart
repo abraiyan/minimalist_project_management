@@ -11,8 +11,8 @@ int intiScreen;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences preferences = await SharedPreferences.getInstance();
-  intiScreen = preferences.getInt('initScreen');
-  await preferences.setInt('initScreen', 1);
+  intiScreen = preferences.getInt('intiScreen');
+  await preferences.setInt('intiScreen', 1);
   runApp(MyApp());
 }
 
@@ -23,7 +23,11 @@ class MyApp extends StatelessWidget {
       create: (context) =>  AppDatabase().itemsDao,
       child: MaterialApp(
         debugShowCheckedModeBanner: false, //To hide the DEBUG red bar from the app
-        home: OnBoardingScreen(),
+        initialRoute: intiScreen == 0 || intiScreen == null ? 'onBoard' : 'homePage',
+        routes: {
+          'homePage': (context) => HomePage(),
+          'onBoard': (context) => OnBoardingScreen(),
+        },
       ),
     );
   }
