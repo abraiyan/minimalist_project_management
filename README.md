@@ -1,4 +1,4 @@
-# Minimalistic Project Management App
+# Minimalistic Task Management App
 
 A Flutter application 
 
@@ -6,6 +6,7 @@ A Flutter application
 
 - [Provider](https://pub.dev/packages/provider)
 - [Moor (SQLite)](https://pub.dev/packages/moor_flutter)
+- [Shared Preferences](https://pub.dev/packages/shared_preferences)
 
 ## Getting Started
 
