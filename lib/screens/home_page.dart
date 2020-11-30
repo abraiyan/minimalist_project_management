@@ -335,10 +335,6 @@ class _HomePageState extends State<HomePage> {
               value: 'delete',
               child: Text('Delete All Task', style: GoogleFonts.montserrat(color: Colors.black87),),
             ),
-            PopupMenuItem<String>(
-              value: 'theme',
-              child: Text('Switch to Dark Theme', style: GoogleFonts.montserrat(color: Colors.black87),),
-            ),
           ],
         ),
       ],
