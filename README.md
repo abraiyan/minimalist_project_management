@@ -5,7 +5,7 @@ A Flutter application
 ## Built With
 
 - [Provider](https://pub.dev/packages/provider)
-- [Moor (SQlite)](https://pub.dev/packages/moor_flutter)
+- [Moor (SQLite)](https://pub.dev/packages/moor_flutter)
 
 ## Getting Started
 
