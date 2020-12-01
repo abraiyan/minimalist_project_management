@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       create: (context) =>  AppDatabase().itemsDao,
       child: MaterialApp(
-        debugShowCheckedModeBanner: false, //To hide the DEBUG red bar from the app
+        debugShowCheckedModeBanner: false,
         initialRoute: intiScreen == 0 || intiScreen == null ? 'onBoard' : 'homePage',
         routes: {
           'homePage': (context) => HomePage(),
